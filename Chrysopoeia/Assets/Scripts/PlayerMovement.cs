@@ -53,7 +53,7 @@ public class PlayerMovement : MonoBehaviour
         {
             GameObject pot = Instantiate(potion, transform.position, Quaternion.identity);
             potrb = pot.GetComponent<Rigidbody2D>();
-            potrb.AddForce(new Vector2(hori, vert) * throwpower, ForceMode2D.Impulse);
+            potrb.AddForce(new Vector2(hori * 0.7f, vert * 1.5f) * throwpower, ForceMode2D.Impulse);
             potrb.velocity += new Vector2(rb.velocity.x, throwpower);
         }
     }
