@@ -135,7 +135,7 @@ GameObject:
   - component: {fileID: 269447592}
   m_Layer: 6
   m_Name: Ground (4)
-  m_TagString: Untagged
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -265,7 +265,7 @@ GameObject:
   - component: {fileID: 412803936}
   m_Layer: 6
   m_Name: Ground (2)
-  m_TagString: Untagged
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -395,6 +395,7 @@ GameObject:
   - component: {fileID: 416671590}
   - component: {fileID: 416671593}
   - component: {fileID: 416671594}
+  - component: {fileID: 416671595}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -414,10 +415,10 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
-  m_Mass: 2
-  m_LinearDrag: 0
+  m_Mass: 1
+  m_LinearDrag: 3
   m_AngularDrag: 0.05
-  m_GravityScale: 1
+  m_GravityScale: 1.5
   m_Material: {fileID: 6200000, guid: 8fd296398ef094b49969fbba6757ac41, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
@@ -509,20 +510,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3382485626497dd4292b5ab514263a5d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startingSpeed: 9
+  startingSpeed: 20
   speed: 0
-  jumpPower: 13
+  jumpPower: 20
+  burstjumpMult: 1
   jumpCooldown: 0.1
   coyoteTime: 0.1
   groundedJump: 0
   boxcastDist: 0.8
+  gravityBonus: 15
   mask:
     serializedVersion: 2
     m_Bits: 64
   burstSpeed: 15
   burstDuration: 0.4
   potion: {fileID: 3425682706324871521, guid: 29816e95a3f500f498c45f08facc4ae6, type: 3}
-  throwpower: 10
+  throwpower: 30
+  throwDelay: 0.2
 --- !u!61 &416671594
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -568,6 +572,18 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 2}
   m_EdgeRadius: 0
+--- !u!114 &416671595
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 416671588}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 12c729018a00e5e45a49f0a7c66512ca, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1125051913
 GameObject:
   m_ObjectHideFlags: 0
@@ -581,7 +597,7 @@ GameObject:
   - component: {fileID: 1125051914}
   m_Layer: 6
   m_Name: Ground (1)
-  m_TagString: Untagged
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -711,7 +727,7 @@ GameObject:
   - component: {fileID: 1235297160}
   m_Layer: 6
   m_Name: Ground (3)
-  m_TagString: Untagged
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -933,7 +949,7 @@ GameObject:
   - component: {fileID: 1648363443}
   m_Layer: 6
   m_Name: Ground
-  m_TagString: Untagged
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
