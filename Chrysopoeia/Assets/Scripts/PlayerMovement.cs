@@ -18,6 +18,12 @@ public class PlayerMovement : MonoBehaviour
     private Rigidbody2D rb;
     private BoxCollider2D coll;
     public LayerMask mask;
+    private Vector2 burst;
+    private bool bursting;
+    public float burstSpeed = 5f;
+    public float burstDuration = 1f;
+    private float burstStart;
+    private bool burstjump;
 
     [Header("Throw")]
     public GameObject potion;
@@ -34,28 +40,85 @@ public class PlayerMovement : MonoBehaviour
     {
         float hori = Input.GetAxisRaw("Horizontal");
         float vert = Input.GetAxisRaw("Vertical");
-        rb.velocity = new Vector2(hori * speed, rb.velocity.y);
+        if (!bursting)
+        {
+            rb.velocity = new Vector2(hori * speed, rb.velocity.y);
 
-        groundedJump = Physics2D.BoxCast(transform.position, new(coll.size.x / 2, boxcastDist), 0, Vector2.down, boxcastDist, mask);
-        if (rb.velocity.y < 0)
-        {
-            rb.velocity = new Vector2(rb.velocity.x, rb.velocity.y - 2f * Time.deltaTime);
-        }
-        if (!jumpOnCD && Input.GetKey(KeyCode.Space) && groundedJump)
-        {
-            rb.velocity = new Vector2(rb.velocity.x, 0);
-            jumpOnCD = true;
-            rb.AddForce(new(0, jumpPower), ForceMode2D.Impulse);
-            Invoke(nameof(endJumpCooldown), jumpCooldown);
-        }
+            groundedJump = Physics2D.BoxCast(transform.position, new(coll.size.x / 2, boxcastDist), 0, Vector2.down, boxcastDist, mask);
+            if (groundedJump)
+            {
+                burstjump = false;
+            }
+            if (rb.velocity.y < 0 && !burstjump)
+            {
+                rb.velocity = new Vector2(rb.velocity.x, rb.velocity.y - 2f * Time.deltaTime);
+            }
+            if ( Input.GetKey(KeyCode.Space))
+            {
+                if (!jumpOnCD && groundedJump)
+                {
+                    rb.velocity = new Vector2(rb.velocity.x, 0);
+                    jumpOnCD = true;
+                    rb.AddForce(new(0, jumpPower), ForceMode2D.Impulse);
+                    Invoke(nameof(endJumpCooldown), jumpCooldown);
+                }
+                else if (burstjump)
+                {
+                    rb.velocity = new Vector2(rb.velocity.x, 0);
+                    jumpOnCD = true;
+                    rb.AddForce(new(0, jumpPower * 0.7f), ForceMode2D.Impulse);
+                    burstjump = false;
+                    Invoke(nameof(endJumpCooldown), jumpCooldown);
+                }
+                
+            }
 
-        if (Input.GetKeyDown(KeyCode.L))
-        {
-            GameObject pot = Instantiate(potion, transform.position, Quaternion.identity);
-            potrb = pot.GetComponent<Rigidbody2D>();
-            potrb.AddForce(new Vector2(hori * 0.7f, vert * 1.5f) * throwpower, ForceMode2D.Impulse);
-            potrb.velocity += new Vector2(rb.velocity.x, throwpower);
+            if (Input.GetKeyDown(KeyCode.L))
+            {
+                GameObject pot = Instantiate(potion, transform.position, Quaternion.identity);
+                potrb = pot.GetComponent<Rigidbody2D>();
+                if (vert < 0)
+                {
+                    potrb.AddForce(new Vector2(hori * 1.5f, vert) * throwpower, ForceMode2D.Impulse);
+
+
+
+
+                }
+                else
+                {
+                    if (vert > 0)
+                    {
+                        potrb.AddForce(new Vector2(hori, vert + 0.5f) * throwpower, ForceMode2D.Impulse);
+
+                    }
+                    else
+                    {
+                        potrb.AddForce(new Vector2(hori * 1.5f, vert + 0.5f) * throwpower, ForceMode2D.Impulse);
+
+                    }
+
+                }
+                potrb.velocity += new Vector2(0, 0);
+            }
+            if (Input.GetKeyDown(KeyCode.LeftShift))
+            {
+                bursting = true;
+                burstStart = Time.time;
+                burst = new Vector2(hori, vert).normalized;
+                burstjump = true;
+            }
         }
+        else
+        {
+            rb.velocity = burst * burstSpeed;
+            if (Time.time - burstStart > burstDuration)
+            {
+                bursting = false;
+                rb.velocity = Vector2.zero;
+            }
+        }
+        
     }
 
     private void endJumpCooldown()

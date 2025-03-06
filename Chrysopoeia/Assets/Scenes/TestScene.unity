@@ -519,8 +519,10 @@ MonoBehaviour:
   mask:
     serializedVersion: 2
     m_Bits: 64
+  burstSpeed: 15
+  burstDuration: 0.4
   potion: {fileID: 3425682706324871521, guid: 29816e95a3f500f498c45f08facc4ae6, type: 3}
-  throwpower: 4
+  throwpower: 10
 --- !u!61 &416671594
 BoxCollider2D:
   m_ObjectHideFlags: 0
