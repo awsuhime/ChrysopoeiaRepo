@@ -32,11 +32,8 @@ public class PlayerMovement : MonoBehaviour
     public GameObject potion;
     private Rigidbody2D potrb;
     public float throwpower = 5f;
-    public float throwDelay = 0.2f;
-    private bool throwing;
-    private float throwStart;
-    float throwhori = 0;
-    float throwvert = 0;
+    public float maxthrowdist = 5f;
+    
     void Start()
     {
         speed = startingSpeed;
@@ -48,9 +45,9 @@ public class PlayerMovement : MonoBehaviour
     {
         float hori = Input.GetAxisRaw("Horizontal");
         float vert = Input.GetAxisRaw("Vertical");
-        if (!bursting && !throwing)
+        if (!bursting)
         {
-            rb.AddRelativeForce(new Vector2(hori * speed, 0), ForceMode2D.Force);
+            rb.AddRelativeForce(new Vector2(hori * speed * Time.deltaTime * 100, 0), ForceMode2D.Force);
 
             if (hori < 0 && rb.velocity.x > -speed || hori > 0 && rb.velocity.x < speed)
             {
@@ -87,19 +84,34 @@ public class PlayerMovement : MonoBehaviour
                 
             }
 
-            if (Input.GetKeyDown(KeyCode.L))
+            if (Input.GetMouseButtonDown(0))
             {
-                throwing = true;
-                throwStart = Time.time;
-                throwhori = hori;
-                throwvert = vert;
-                Time.timeScale = 0.7f;
+                Vector2 direction = transform.position;
+
+                if (Vector3.Distance(Camera.main.ScreenToWorldPoint(Input.mousePosition),  transform.position) < maxthrowdist)
+                {
+                    direction = Camera.main.ScreenToWorldPoint(Input.mousePosition) - transform.position;
+
+                }
+                else
+                {
+                    direction = Camera.main.ScreenToWorldPoint(Input.mousePosition) - transform.position;
+                    direction.Normalize();
+                    direction *= maxthrowdist;
+                }
+                GameObject pot = Instantiate(potion, transform.position, Quaternion.identity);
+                potrb = pot.GetComponent<Rigidbody2D>();
+                potrb.AddForce(direction*throwpower, ForceMode2D.Impulse);
+
+
             }
-            if (Input.GetKeyDown(KeyCode.LeftShift))
+            if (Input.GetMouseButtonDown(1))
             {
                 bursting = true;
                 burstStart = Time.time;
-                burst = new Vector2(hori, vert).normalized;
+                Vector2 dir = Camera.main.ScreenToWorldPoint(Input.mousePosition) - transform.position;
+
+                burst = dir.normalized;
                 burstjump = true;
             }
         }
@@ -112,49 +124,8 @@ public class PlayerMovement : MonoBehaviour
                 rb.velocity = Vector2.zero;
             }
         }
-        else if (throwing)
-        {
-            
-            if (hori != 0)
-            {
-                throwhori = hori;
-
-            }
-            if (vert != 0)
-            {
-               throwvert = vert;
-            }
-            if (Time.time - throwStart > throwDelay)
-            {
-                Time.timeScale = 1f;
-                throwing = false;
-                GameObject pot = Instantiate(potion, transform.position, Quaternion.identity);
-                potrb = pot.GetComponent<Rigidbody2D>();
-                if (throwvert < 0)
-                {
-                    potrb.AddForce(new Vector2(throwhori, throwvert) * throwpower, ForceMode2D.Impulse);
-
-
-
-
-                }
-                else
-                {
-                    if (throwvert > 0)
-                    {
-                        potrb.AddForce(new Vector2(throwhori, throwvert + 0.5f) * throwpower, ForceMode2D.Impulse);
-
-                    }
-                    else
-                    {
-                        potrb.AddForce(new Vector2(throwhori * 1.5f, throwvert + 0.5f) * throwpower, ForceMode2D.Impulse);
-
-                    }
-
-                }
-                potrb.velocity += new Vector2(0, 0);
-            }
-        }
+        
+        
         
     }
 
