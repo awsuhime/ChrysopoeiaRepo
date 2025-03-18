@@ -916,9 +916,10 @@ GameObject:
   - component: {fileID: 416671593}
   - component: {fileID: 416671594}
   - component: {fileID: 416671595}
+  - component: {fileID: 416671596}
   m_Layer: 0
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1030,18 +1031,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3382485626497dd4292b5ab514263a5d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startingSpeed: 15
+  startingSpeed: 18
   speed: 0
   rcChargeTime: 0.15
   maxrockdist: 2
   rockMult: 4
-  jumpPower: 20
+  jumpPower: 25
   burstjumpMult: 1
   jumpCooldown: 0.1
   coyoteTime: 0.1
   groundedJump: 0
   boxcastDist: 0.8
-  gravityBonus: 15
+  gravityBonus: 40
+  rockgravBonus: 10
   mask:
     serializedVersion: 2
     m_Bits: 64
@@ -1107,6 +1109,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 12c729018a00e5e45a49f0a7c66512ca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &416671596
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 416671588}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2bcc65b3aae8bad4ab4b8f5d2aedc9a3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHealth: 100
 --- !u!1 &547936965
 GameObject:
   m_ObjectHideFlags: 0
@@ -2157,6 +2172,7 @@ GameObject:
   m_Component:
   - component: {fileID: 912760929}
   - component: {fileID: 912760928}
+  - component: {fileID: 912760930}
   m_Layer: 0
   m_Name: Enemy
   m_TagString: Untagged
@@ -2231,6 +2247,21 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &912760930
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 912760927}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5409a81a33aa0a542a131a1a49ddc673, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  projectile: {fileID: 8345295585099094808, guid: baf6464fc6ff7fd4eaa078d987c77f81, type: 3}
+  reloadTime: 2
+  detectionRange: 15
 --- !u!1 &1017198307
 GameObject:
   m_ObjectHideFlags: 0

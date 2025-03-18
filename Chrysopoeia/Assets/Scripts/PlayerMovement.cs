@@ -26,6 +26,7 @@ public class PlayerMovement : MonoBehaviour
     public bool groundedJump;
     public float boxcastDist = 1f;
     public float gravityBonus = 1f;
+    public float rockgravBonus = 1.2f;
     private Rigidbody2D rb;
     private BoxCollider2D coll;
     public LayerMask mask;
@@ -73,7 +74,8 @@ public class PlayerMovement : MonoBehaviour
                 }
                 if (rb.velocity.y < 0)
                 {
-                    rb.velocity = new Vector2(rb.velocity.x, rb.velocity.y - gravityBonus * Time.deltaTime);
+                    rb.velocity = new Vector2(rb.velocity.x, rb.velocity.y - (gravityBonus * Time.deltaTime));
+                    Debug.Log("Gravity bonus applied.");
                 }
                 if (Input.GetKey(KeyCode.Space))
                 {
@@ -147,8 +149,11 @@ public class PlayerMovement : MonoBehaviour
                     bowling = false;
                     spriteRenderer.color = Color.white;
                     rb.drag = 3;
+                    rb.gravityScale = 2;
+
+
                 }
-                rb.velocity = new Vector2(rb.velocity.x, rb.velocity.y - gravityBonus * Time.deltaTime * 1.5f);
+                rb.velocity = new Vector2(rb.velocity.x, rb.velocity.y - (rockgravBonus * Time.deltaTime));
 
             }
 
@@ -156,7 +161,10 @@ public class PlayerMovement : MonoBehaviour
             {
                 bowling = false;
                 spriteRenderer.color = Color.white;
+
                 rb.drag = 3;
+                rb.gravityScale = 2;
+
 
 
             }
@@ -178,8 +186,9 @@ public class PlayerMovement : MonoBehaviour
             {
                 holdingRight = false;
                 bowling = true;
-                spriteRenderer.color = Color.green;
+                spriteRenderer.color = Color.cyan;
                 rb.drag = 1;
+                rb.gravityScale = 4;
                 Vector2 direction = transform.position;
 
                 if (Vector3.Distance(Camera.main.ScreenToWorldPoint(Input.mousePosition), transform.position) < maxrockdist)
