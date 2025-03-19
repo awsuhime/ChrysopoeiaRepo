@@ -6,6 +6,11 @@ public class Health : MonoBehaviour
 {
     public float maxHealth;
     private float health;
+    private void Start()
+    {
+        health = maxHealth;
+    }
+
     public void takeDamage(float damage)
     {
         health -= damage;

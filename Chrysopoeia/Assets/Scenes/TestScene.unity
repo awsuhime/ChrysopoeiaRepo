@@ -1052,6 +1052,7 @@ MonoBehaviour:
   potion: {fileID: 3425682706324871521, guid: 29816e95a3f500f498c45f08facc4ae6, type: 3}
   throwpower: 2
   maxthrowdist: 10
+  throwreloadtime: 0.3
 --- !u!61 &416671594
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -2260,7 +2261,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   projectile: {fileID: 8345295585099094808, guid: baf6464fc6ff7fd4eaa078d987c77f81, type: 3}
-  reloadTime: 2
+  reloadTime: 1.5
   detectionRange: 15
 --- !u!1 &1017198307
 GameObject:

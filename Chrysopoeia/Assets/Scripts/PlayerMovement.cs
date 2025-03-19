@@ -42,6 +42,8 @@ public class PlayerMovement : MonoBehaviour
     private Rigidbody2D potrb;
     public float throwpower = 5f;
     public float maxthrowdist = 5f;
+    public float throwreloadtime = 1f;
+    private bool reloading;
     
     void Start()
     {
@@ -99,22 +101,28 @@ public class PlayerMovement : MonoBehaviour
 
                 if (Input.GetMouseButtonDown(0))
                 {
-                    Vector2 direction = transform.position;
-
-                    if (Vector3.Distance(Camera.main.ScreenToWorldPoint(Input.mousePosition), transform.position) < maxthrowdist)
+                    if (!reloading)
                     {
-                        direction = Camera.main.ScreenToWorldPoint(Input.mousePosition) - transform.position;
+                        Vector2 direction = transform.position;
 
+                        if (Vector3.Distance(Camera.main.ScreenToWorldPoint(Input.mousePosition), transform.position) < maxthrowdist)
+                        {
+                            direction = Camera.main.ScreenToWorldPoint(Input.mousePosition) - transform.position;
+
+                        }
+                        else
+                        {
+                            direction = Camera.main.ScreenToWorldPoint(Input.mousePosition) - transform.position;
+                            direction.Normalize();
+                            direction *= maxthrowdist;
+                        }
+                        GameObject pot = Instantiate(potion, transform.position, Quaternion.identity);
+                        potrb = pot.GetComponent<Rigidbody2D>();
+                        potrb.AddForce(direction * throwpower, ForceMode2D.Impulse);
+                        reloading = true;
+                        Invoke(nameof(reload), throwreloadtime);
                     }
-                    else
-                    {
-                        direction = Camera.main.ScreenToWorldPoint(Input.mousePosition) - transform.position;
-                        direction.Normalize();
-                        direction *= maxthrowdist;
-                    }
-                    GameObject pot = Instantiate(potion, transform.position, Quaternion.identity);
-                    potrb = pot.GetComponent<Rigidbody2D>();
-                    potrb.AddForce(direction * throwpower, ForceMode2D.Impulse);
+                  
 
 
                 }
@@ -211,6 +219,10 @@ public class PlayerMovement : MonoBehaviour
         
     }
 
+    private void reload()
+    {
+        reloading = false;
+    }
     private void endJumpCooldown()
     {
         jumpOnCD = false;
