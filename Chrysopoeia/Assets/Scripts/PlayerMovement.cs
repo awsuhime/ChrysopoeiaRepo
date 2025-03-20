@@ -116,6 +116,7 @@ public class PlayerMovement : MonoBehaviour
                             direction.Normalize();
                             direction *= maxthrowdist;
                         }
+                        direction += new Vector2(rb.velocity.x / 4,throwpower / 2);
                         GameObject pot = Instantiate(potion, transform.position, Quaternion.identity);
                         potrb = pot.GetComponent<Rigidbody2D>();
                         potrb.AddForce(direction * throwpower, ForceMode2D.Impulse);

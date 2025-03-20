@@ -9,6 +9,7 @@ public class Enemy : MonoBehaviour
     private bool reloading;
     public float detectionRange = 10f;
     private GameObject player;
+    public float missrange = 10;
     void Start()
     {
         player = GameObject.Find("Player");
@@ -22,7 +23,7 @@ public class Enemy : MonoBehaviour
             Invoke(nameof(Reload), reloadTime);
             Vector2 rotation = player.transform.position - transform.position;
             float rotz = Mathf.Atan2(rotation.y, rotation.x) * Mathf.Rad2Deg;
-            Instantiate(projectile, transform.position, Quaternion.Euler(0, 0, rotz));
+            Instantiate(projectile, transform.position, Quaternion.Euler(0, 0, rotz + Random.Range(-missrange, missrange)));
         }
     }
 
